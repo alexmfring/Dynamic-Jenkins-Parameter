@@ -4,6 +4,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.export.Exported;
 
 import hudson.EnvVars;
+import hudson.model.Run;
 import hudson.model.AbstractBuild;
 import hudson.model.StringParameterValue;
 import hudson.util.VariableResolver;
@@ -64,5 +65,10 @@ public class DynamicParameterValue extends StringParameterValue {
   @Override
   public String toString() {
     return "(DynamicParameterValue) " + getName() + "='" + value + "', " + this.dynamicName + "='" + dynamicValue + "'";
+  }
+  @Override
+  public void buildEnvironment(Run<?,?> build, EnvVars env) {
+    env.put(name, value);
+    env.put(dynamicName, dynamicValue); 
   }
 }
